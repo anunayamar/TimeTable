@@ -34,6 +34,6 @@ public class Task {
 
     // Will be used by the ArrayAdapter in the ListView
     public String toString(){
-        return task+" "+day;
+        return task;
     }
 }

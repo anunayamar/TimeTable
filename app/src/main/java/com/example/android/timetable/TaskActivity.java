@@ -15,7 +15,10 @@ import android.widget.ListView;
 import com.example.android.db.Task;
 import com.example.android.db.TaskDataSource;
 
+import org.w3c.dom.Comment;
+
 import java.sql.SQLException;
+import java.util.List;
 
 public class TaskActivity extends Activity {
 
@@ -32,14 +35,28 @@ public class TaskActivity extends Activity {
 
         String dayName=intent.getCharSequenceExtra("DAY_NAME").toString();
 
-        if(dayName.equals("Monday")){
+        /*if(dayName.equals("Monday")){
             showTask();
-        }
+        }*/
+        displayTask(dayName);
 
     }
 
-    public void displayTask(){
+    public void displayTask(String day){
+        dataSource = new TaskDataSource(this);
+        try{
+            dataSource.open();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 
+        //Task task=dataSource.createTask("Monday", "Tasked Created via SQLite");
+
+        List<Task> values = dataSource.getAllTask(day);
+
+        listView= (ListView)findViewById(R.id.listView);
+        ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.textView, values);
+        listView.setAdapter(adapter);
     }
 
     public void showTask(){

@@ -56,11 +56,11 @@ public class TaskDataSource {
                 + " = " + id, null);
     }
 
-    public List<Task> getAllTask() {
+    public List<Task> getAllTask(String day) {
         List<Task> tasks = new ArrayList<Task>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_TASK,
-                allColumns, null, null, null, null, null);
+                allColumns, MySQLiteHelper.COLUMN_DAY + " = '" + day +"'", null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
