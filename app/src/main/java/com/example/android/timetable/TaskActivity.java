@@ -104,5 +104,10 @@ public class TaskActivity extends Activity {
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.task_row, R.id.textView, data);
         listView.setAdapter(adapter);
     }
+
+    public void createTask(View view){
+        Intent intent = new Intent(this, TaskGenerator.class);
+        startActivity(intent);
+    }
 }
 

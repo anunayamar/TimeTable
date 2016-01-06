@@ -23,6 +23,8 @@
             android:label="@string/title_activity_task"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity android:name=".TaskGenerator" >
+        </activity>
     </application>
 
 </manifest>
