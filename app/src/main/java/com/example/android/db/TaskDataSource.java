@@ -49,11 +49,9 @@ public class TaskDataSource {
         return newTask;
     }
 
-    public void deleteTask(Task task) {
-        long id = task.getId();
-        System.out.println("Task deleted with id: " + id);
-        database.delete(MySQLiteHelper.TABLE_TASK, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
+    public void deleteTask(String task) {
+        database.delete(MySQLiteHelper.TABLE_TASK, MySQLiteHelper.COLUMN_TASK
+                + " = '" + task+"'", null);
     }
 
     public List<Task> getAllTask(String day) {

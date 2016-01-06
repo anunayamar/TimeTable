@@ -8,9 +8,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.db.Task;
 import com.example.android.db.TaskDataSource;
@@ -57,6 +62,29 @@ public class TaskActivity extends Activity {
         listView= (ListView)findViewById(R.id.listView);
         ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.textView, values);
         listView.setAdapter(adapter);
+
+        registerForContextMenu(listView);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add("Delete");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        String taskDescription= ((TextView)info.targetView.findViewById(R.id.textView)).getText().toString();
+
+        Toast.makeText(this,taskDescription,Toast.LENGTH_LONG).show();
+        dataSource.deleteTask(taskDescription);
+
+        if(item.getTitle().toString().equals("Delete")){
+            Toast.makeText(this,"Deleted",Toast.LENGTH_LONG).show();
+        }
+        return true;
     }
 
     public void showTask(){
