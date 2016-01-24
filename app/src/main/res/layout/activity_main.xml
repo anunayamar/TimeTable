@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundimage"
     android:orientation="vertical"
-    android:background="#673AB7"
-    tools:context=".DaysList"
-    >
+    tools:context=".DaysList">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,25 +18,23 @@
             android:id="@+id/mon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/mon"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/letterm" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Monday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
     </LinearLayout>
 
     <View
@@ -55,31 +52,31 @@
             android:id="@+id/tue"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/tue"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/lettert" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Tuesday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>/>
+            android:textSize="34sp" />/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -90,25 +87,24 @@
             android:id="@+id/wed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/wed"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/letterw" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
+            android:paddingLeft="25sp"
             android:paddingTop="15sp"
             android:text="Wednesday"
-            android:paddingLeft="25sp"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -116,6 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -126,25 +123,24 @@
             android:id="@+id/thur"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/thur"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/lettert" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Thursday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -152,6 +148,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -162,25 +159,24 @@
             android:id="@+id/fri"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/fri"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/letterf" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Friday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -188,6 +184,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -198,25 +195,24 @@
             android:id="@+id/sat"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/sat"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/letters" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Saturday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
 
     </LinearLayout>
 
@@ -224,6 +220,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -234,25 +231,24 @@
             android:id="@+id/sun"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginRight="5sp"
-            android:src="@drawable/sun"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            />
+            android:src="@drawable/letters" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="#673AB7"
+
             android:fontFamily="sans-serif"
+            android:onClick="sendMessage"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
             android:paddingLeft="25sp"
+            android:paddingTop="15sp"
             android:text="Sunday"
             android:textColor="#E8F5E9"
-            android:textSize="34sp"
-            android:onClick="sendMessage"/>
+            android:textSize="34sp" />
 
     </LinearLayout>
 
