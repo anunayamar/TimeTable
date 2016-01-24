@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -41,15 +42,22 @@ public class TaskGenerator extends FragmentActivity {
             System.out.println("Anunay1");
             TaskGenerator taskGenerator=(TaskGenerator)getActivity();
             taskGenerator.updateTimerLabel(hourOfDay, minute, view.is24HourView());
+
             System.out.println("Anunay2");
             //dismiss();
         }
     }
 
     private void updateTimerLabel(int hourOfDay, int minute, boolean is24Hour){
-        System.out.println("Anunay3");
-        Toast.makeText(this, "" + hourOfDay + " " + minute + " " + is24Hour, Toast.LENGTH_LONG);
-        System.out.println("Anunay4"+ hourOfDay + " " + minute + " " + is24Hour);
+        
+        TextView textView=(TextView)findViewById(R.id.timerlabel);
+        textView.setTextSize(45);
+        if(hourOfDay<=12) {
+            textView.setText(hourOfDay + ":" + minute+" AM");
+        }else{
+            textView.setText(hourOfDay + ":" + minute+" PM");
+        }
+
     }
 
     public void showTimePickerDialog(View v) {
