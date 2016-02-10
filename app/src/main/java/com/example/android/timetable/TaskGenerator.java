@@ -3,7 +3,6 @@ package com.example.android.timetable;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.android.db.Task;
