@@ -27,7 +27,7 @@ import java.util.List;
 
 public class TaskActivity extends Activity {
 
-    private String []data= {"Wake up", "Take a shit", "Bath", "Feed your belly"};
+    /*private String []data= {"Wake up", "Take a shit", "Bath", "Feed your belly"};*/
     private ListView listView;
     private TaskDataSource dataSource = null;
 
@@ -55,9 +55,13 @@ public class TaskActivity extends Activity {
             e.printStackTrace();
         }
 
-        //Task task=dataSource.createTask("Monday", "Tasked Created via SQLite");
+        /*Task task=dataSource.createTask("Monday", "Tasked Created via SQLite", "Task description custom", "10:00 AM");
+        System.out.println("Task :"+task);*/
 
         List<Task> values = dataSource.getAllTask(day);
+        System.out.println("Reading from db:"+values);
+
+        dataSource.close();
 
         listView= (ListView)findViewById(R.id.listView);
         ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.textView, values);
@@ -75,6 +79,14 @@ public class TaskActivity extends Activity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         super.onContextItemSelected(item);
+
+        dataSource = new TaskDataSource(this);
+        try{
+            dataSource.open();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         String taskDescription= ((TextView)info.targetView.findViewById(R.id.textView)).getText().toString();
 
@@ -87,7 +99,7 @@ public class TaskActivity extends Activity {
         return true;
     }
 
-    public void showTask(){
+    /*public void showTask(){
 
         dataSource = new TaskDataSource(this);
         try{
@@ -96,14 +108,14 @@ public class TaskActivity extends Activity {
             e.printStackTrace();
         }
 
-        Task task=dataSource.createTask("Monday", "Tasked Created via SQLite");
+        Task task=dataSource.createTask("Monday", "Tasked Created via SQLite", "Sample Task Description", "10:00 AM");
         Log.i("Anunay",task.toString());
         System.out.println(task.toString());
         Log.e("DaysList", "anunay1 " + (ListView) findViewById(R.id.listView));
         listView= (ListView)findViewById(R.id.listView);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.task_row, R.id.textView, data);
         listView.setAdapter(adapter);
-    }
+    }*/
 
     public void createTask(View view){
         Intent intent = new Intent(this, TaskGenerator.class);
