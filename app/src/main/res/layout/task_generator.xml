@@ -122,7 +122,7 @@
             android:textOn="SAT" />
 
         <ToggleButton
-            android:id="@+id/SundayToggle"
+            android:id="@+id/sundayToggle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -134,37 +134,62 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:orientation="vertical"
-        android:weightSum="100"
-        android:layout_margin="5dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="25"
-        android:orientation="horizontal"
         android:weightSum="100">
 
-        <ImageView
-            android:id="@+id/clickImage"
-            android:layout_width="0dp"
-            android:layout_weight="25"
-            android:layout_height="wrap_content"
-            android:src="@drawable/clock3"
-            android:onClick="showTimePickerDialog"
-            />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="75"
-            android:layout_height="match_parent"
-            />
-    </LinearLayout>
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <ImageView
+                android:id="@+id/clickImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:onClick="showTimePickerDialog"
+                android:src="@drawable/clock4" />
+
+            <TextView
+                android:id="@+id/timerlabel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="75"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="45dp"
+
+                />
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="75">
 
-        </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/button"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="saveTask"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/button2"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
     </LinearLayout>
 

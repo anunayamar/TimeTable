@@ -30,6 +30,7 @@ public class TaskActivity extends Activity {
     /*private String []data= {"Wake up", "Take a shit", "Bath", "Feed your belly"};*/
     private ListView listView;
     private TaskDataSource dataSource = null;
+    private String dayName;
 
 
     @Override
@@ -38,16 +39,17 @@ public class TaskActivity extends Activity {
         Intent intent=getIntent();
         setContentView(R.layout.taskview);
 
-        String dayName=intent.getCharSequenceExtra("DAY_NAME").toString();
+        System.out.println("TaskActivity: in onCreate()");
+        dayName=intent.getCharSequenceExtra("DAY_NAME").toString();
 
         /*if(dayName.equals("Monday")){
             showTask();
         }*/
-        displayTask(dayName);
+        displayTask();
 
     }
 
-    public void displayTask(String day){
+    public void displayTask(){
         dataSource = new TaskDataSource(this);
         try{
             dataSource.open();
@@ -58,7 +60,7 @@ public class TaskActivity extends Activity {
         /*Task task=dataSource.createTask("Monday", "Tasked Created via SQLite", "Task description custom", "10:00 AM");
         System.out.println("Task :"+task);*/
 
-        List<Task> values = dataSource.getAllTask(day);
+        List<Task> values = dataSource.getAllTask(dayName);
         System.out.println("Reading from db:"+values);
 
         dataSource.close();
@@ -96,6 +98,12 @@ public class TaskActivity extends Activity {
         if(item.getTitle().toString().equals("Delete")){
             Toast.makeText(this,"Deleted",Toast.LENGTH_LONG).show();
         }
+
+        Intent intent = new Intent(this, TaskActivity.class);
+        intent.putExtra("DAY_NAME",dayName);
+        startActivity(intent);
+
+        finish();
         return true;
     }
 
@@ -119,7 +127,45 @@ public class TaskActivity extends Activity {
 
     public void createTask(View view){
         Intent intent = new Intent(this, TaskGenerator.class);
+        intent.putExtra("DAY_NAME", dayName);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("TaskActivity: in onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        System.out.println("TaskActivity: in onStart()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("TaskActivity: in onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("TaskActivity: in onStop()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("TaskActivity: in onResume()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("TaskActivity: in onDestroy()");
     }
 }
 

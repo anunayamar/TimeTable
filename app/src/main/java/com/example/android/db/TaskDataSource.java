@@ -19,7 +19,7 @@ public class TaskDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_DAY, MySQLiteHelper.COLUMN_TASK };
+            MySQLiteHelper.COLUMN_DAY, MySQLiteHelper.COLUMN_TASK, MySQLiteHelper.COLUMN_TASK_DESCRIPTION, MySQLiteHelper.COLUMN_TASK_TIME };
 
     public TaskDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -27,16 +27,19 @@ public class TaskDataSource {
 
     public void open() throws SQLException{
         database = dbHelper.getWritableDatabase();
+
     }
 
     public void close() {
         dbHelper.close();
     }
 
-    public Task createTask(String day, String task) {
+    public Task createTask(String day, String task, String taskDescription, String taskTime) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DAY, day);
         values.put(MySQLiteHelper.COLUMN_TASK, task);
+        values.put(MySQLiteHelper.COLUMN_TASK_DESCRIPTION, taskDescription);
+        values.put(MySQLiteHelper.COLUMN_TASK_TIME, taskTime);
 
         long insertId = database.insert(MySQLiteHelper.TABLE_TASK, null,
                 values);
@@ -66,6 +69,7 @@ public class TaskDataSource {
             tasks.add(task);
             cursor.moveToNext();
         }
+        System.out.println(tasks);
         // make sure to close the cursor
         cursor.close();
         return tasks;

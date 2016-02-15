@@ -4,6 +4,7 @@ package com.example.android.timetable;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
@@ -24,11 +25,17 @@ import java.util.Map;
 public class TaskGenerator extends FragmentActivity {
 
     private TaskDataSource dataSource = null;
+    private String dayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("TaskGenerator: in onCreate");
+
+        Intent intent=getIntent();
         setContentView(R.layout.task_generator);
+        dayName=intent.getCharSequenceExtra("DAY_NAME").toString();
     }
 
     public static class TimePickerFragment extends DialogFragment
@@ -59,6 +66,7 @@ public class TaskGenerator extends FragmentActivity {
     private void updateTimerLabel(int hourOfDay, int minute, boolean is24Hour){
 
         TextView textView=(TextView)findViewById(R.id.timerlabel);
+
         textView.setTextSize(45);
         if(hourOfDay<=12) {
             textView.setText(hourOfDay + ":" + minute+" AM");
@@ -110,5 +118,47 @@ public class TaskGenerator extends FragmentActivity {
         }
         dataSource.close();
 
+        Intent intent = new Intent(this, TaskActivity.class);
+        intent.putExtra("DAY_NAME",dayName);
+        startActivity(intent);
+
+        finish();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("TaskGenerator: in onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        System.out.println("TaskGenerator: in onStart()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("TaskGenerator: in onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("TaskGenerator: in onStop()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("TaskGenerator: in onResume()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("TaskGenerator: in onDestroy()");
     }
 }

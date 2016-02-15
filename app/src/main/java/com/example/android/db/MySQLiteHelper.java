@@ -14,16 +14,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_DAY = "day";
     public static final String COLUMN_TASK = "task";
+    public static final String COLUMN_TASK_DESCRIPTION = "taskDescription";
+    public static final String COLUMN_TASK_TIME = "taskTime";
 
     private static final String DATABASE_NAME = "timetable.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_TASK + "(" + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_DAY
             + " text not null," + COLUMN_TASK
-            + " text not null);";
+            + " text not null," + COLUMN_TASK_DESCRIPTION
+            + " text not null," + COLUMN_TASK_TIME
+            +");";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -7,6 +7,24 @@ public class Task {
     private long id;
     private String day;
     private String task;
+    private String taskDescription;
+    private String taskTime;
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
+
+    public String getTaskTime() {
+        return taskTime;
+    }
+
+    public void setTaskTime(String taskTime) {
+        this.taskTime = taskTime;
+    }
 
     public long getId() {
         return id;
