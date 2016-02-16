@@ -3,11 +3,6 @@ package com.example.android.timetable;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +14,7 @@ import android.widget.Toast;
 
 import com.example.android.db.Task;
 import com.example.android.db.TaskDataSource;
-
-import org.w3c.dom.Comment;
+import com.example.android.service.Adapter;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -61,14 +55,30 @@ public class TaskActivity extends Activity {
         System.out.println("Task :"+task);*/
 
         List<Task> values = dataSource.getAllTask(dayName);
-        System.out.println("Reading from db:"+values);
+
+        String taskTitles[]= new String[values.size()];
+        String taskDescriptions[]= new String[values.size()];
+
+        int i=0;
+        for(Task task: values){
+            taskTitles[i]=task.getTask();
+            taskDescriptions[i]=task.getTaskDescription();
+            System.out.println("Task Time:" + task.getTaskTime());
+            i++;
+        }
+
+
+        System.out.println("Task Description:" + taskDescriptions);
 
         dataSource.close();
 
         listView= (ListView)findViewById(R.id.listView);
-        ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.textView, values);
-        listView.setAdapter(adapter);
 
+        Adapter adapter = new Adapter(this, taskTitles, taskDescriptions);
+        listView.setAdapter(adapter);
+        /*ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.taskTitle, values);
+        listView.setAdapter(adapter);
+*/
         registerForContextMenu(listView);
     }
 
@@ -90,7 +100,7 @@ public class TaskActivity extends Activity {
         }
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        String taskDescription= ((TextView)info.targetView.findViewById(R.id.textView)).getText().toString();
+        String taskDescription= ((TextView)info.targetView.findViewById(R.id.taskTit)).getText().toString();
 
         Toast.makeText(this,taskDescription,Toast.LENGTH_LONG).show();
         dataSource.deleteTask(taskDescription);
