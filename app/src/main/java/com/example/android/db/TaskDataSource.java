@@ -19,7 +19,8 @@ public class TaskDataSource {
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_DAY, MySQLiteHelper.COLUMN_TASK, MySQLiteHelper.COLUMN_TASK_DESCRIPTION, MySQLiteHelper.COLUMN_TASK_TIME };
+            MySQLiteHelper.COLUMN_DAY, MySQLiteHelper.COLUMN_TASK, MySQLiteHelper.COLUMN_TASK_DESCRIPTION, MySQLiteHelper.COLUMN_TASK_TIME,
+            MySQLiteHelper.COLUMN_LATITUDE, MySQLiteHelper.COLUMN_LONGITUDE };
 
     public TaskDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -34,12 +35,14 @@ public class TaskDataSource {
         dbHelper.close();
     }
 
-    public Task createTask(String day, String task, String taskDescription, String taskTime) {
+    public Task createTask(String day, String task, String taskDescription, String taskTime, double latitude, double longitude) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DAY, day);
         values.put(MySQLiteHelper.COLUMN_TASK, task);
         values.put(MySQLiteHelper.COLUMN_TASK_DESCRIPTION, taskDescription);
         values.put(MySQLiteHelper.COLUMN_TASK_TIME, taskTime);
+        values.put(MySQLiteHelper.COLUMN_LATITUDE, latitude);
+        values.put(MySQLiteHelper.COLUMN_LONGITUDE, longitude);
 
         System.out.println("Inserting task:" + task + " taskDescription:" + taskDescription + " taskTime:" + taskTime);
         long insertId = database.insert(MySQLiteHelper.TABLE_TASK, null,
@@ -49,7 +52,8 @@ public class TaskDataSource {
                 null, null, null);
         cursor.moveToFirst();
         Task newTask = cursorToTask(cursor);
-        System.out.println("Fetching cursor task:"+newTask.getTask()+" taskDescription:"+newTask.getTaskDescription()+" taskTime:"+newTask.getTaskTime()+" day:"+newTask.getDay());
+        System.out.println("Fetching cursor task:"+newTask.getTask()+" taskDescription:"+newTask.getTaskDescription()+" taskTime:"
+                +newTask.getTaskTime()+" day:"+newTask.getDay()+" latitude:"+newTask.getLatitude()+" longitude:"+newTask.getLongitude());
 
         cursor.close();
         return newTask;
@@ -85,6 +89,8 @@ public class TaskDataSource {
         task.setTask(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TASK)));
         task.setTaskDescription(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TASK_DESCRIPTION)));
         task.setTaskTime(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TASK_TIME)));
+        task.setLatitude(cursor.getDouble(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LATITUDE)));
+        task.setLongitude(cursor.getDouble(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LONGITUDE)));
 
 
         return task;
