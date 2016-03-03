@@ -9,6 +9,8 @@ public class Task {
     private String task;
     private String taskDescription;
     private String taskTime;
+    private double latitude;
+    private double longitude;
 
     public String getTaskDescription() {
         return taskDescription;
@@ -48,6 +50,22 @@ public class Task {
 
     public void setTask(String task) {
         this.task = task;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     // Will be used by the ArrayAdapter in the ListView
