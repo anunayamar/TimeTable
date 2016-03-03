@@ -21,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -31,6 +32,9 @@ public class TaskGenerator extends FragmentActivity {
 
     private TaskDataSource dataSource = null;
     private String dayName;
+    private double latitude;
+    private double longitude;
+
     private  int PLACE_PICKER_REQUEST = 1;
 
     @Override
@@ -92,6 +96,7 @@ public class TaskGenerator extends FragmentActivity {
         EditText taskTitle = (EditText) findViewById(R.id.taskTitle);
         EditText taskDescription = (EditText) findViewById(R.id.taskDescription);
         TextView taskTimer=(TextView) findViewById(R.id.timerlabel);
+
         int []dayId= {R.id.sundayToggle, R.id.mondayToggle, R.id.tuesdayToggle, R.id.wednesdayToggle, R.id.thursdayToggle, R.id.fridayToggle, R.id.saturdayToggle};
 
         Map<String, String> dayMap = new HashMap<>();
@@ -117,7 +122,7 @@ public class TaskGenerator extends FragmentActivity {
 
             if(dayToggle.isChecked()){
                 Task task = dataSource.createTask(dayMap.get(dayToggle.getTextOn().toString()), taskTitle.getText().toString(),
-                        taskDescription.getText().toString(), taskTimer.getText().toString());
+                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude);
 
                 System.out.println(task);
             }
@@ -133,8 +138,6 @@ public class TaskGenerator extends FragmentActivity {
     }
 
     public void showMap(View view){
-
-
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
         try {
@@ -155,9 +158,22 @@ public class TaskGenerator extends FragmentActivity {
                 Place place = PlacePicker.getPlace(data, this);
 
                 String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                LatLng latLng=place.getLatLng();
+
+                Toast.makeText(this, latLng.toString(), Toast.LENGTH_LONG).show();
+                updateLocationLabel(latLng.latitude,latLng.longitude);
             }
         }
+    }
+
+    public void updateLocationLabel(double latitude, double longitude){
+
+        TextView textView=(TextView)findViewById(R.id.locationLabel);
+
+        textView.setTextSize(25);
+        textView.setText("LATITUDE: " + latitude + "\nLONGITUDE: " + longitude);
+        this.latitude=latitude;
+        this.longitude=longitude;
     }
 
     @Override
