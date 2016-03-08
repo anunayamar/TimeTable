@@ -74,12 +74,18 @@ public class TaskActivity extends Activity {
 
         listView= (ListView)findViewById(R.id.listView);
 
-        Adapter adapter = new Adapter(this, taskTitles, taskDescriptions);
+        final Adapter adapter = new Adapter(this, taskTitles, taskDescriptions);
         listView.setAdapter(adapter);
-        /*ArrayAdapter<Task> adapter=new ArrayAdapter<Task>(this,R.layout.task_row, R.id.taskTitle, values);
-        listView.setAdapter(adapter);
-*/
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("adapter.getItem(position):" + adapter.getItem(position)+" position: "+position);
+            }
+        });
         registerForContextMenu(listView);
+
     }
 
     @Override
@@ -110,7 +116,7 @@ public class TaskActivity extends Activity {
         }
 
         Intent intent = new Intent(this, TaskActivity.class);
-        intent.putExtra("DAY_NAME",dayName);
+        intent.putExtra("DAY_NAME", dayName);
         startActivity(intent);
 
         finish();
@@ -134,6 +140,10 @@ public class TaskActivity extends Activity {
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.task_row, R.id.textView, data);
         listView.setAdapter(adapter);
     }*/
+
+    public void temp(View view){
+        Toast.makeText(this,"map clicked",Toast.LENGTH_LONG);
+    }
 
     public void createTask(View view){
         Intent intent = new Intent(this, TaskGenerator.class);
