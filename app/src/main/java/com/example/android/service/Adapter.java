@@ -38,4 +38,9 @@ public class Adapter extends ArrayAdapter<String> {
 
         return row;
     }
+
+    @Override
+    public String getItem(int position) {
+        return super.getItem(position);
+    }
 }
