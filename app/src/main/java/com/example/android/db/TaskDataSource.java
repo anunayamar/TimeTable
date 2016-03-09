@@ -82,6 +82,24 @@ public class TaskDataSource {
         return tasks;
     }
 
+    public List<Task> getTask(String day, String taskTitle) {
+        List<Task> tasks = new ArrayList<Task>();
+
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_TASK,
+                allColumns, MySQLiteHelper.COLUMN_DAY + " = '" + day +"' and " + MySQLiteHelper.COLUMN_TASK + " = '" + taskTitle +"'", null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Task task = cursorToTask(cursor);
+            tasks.add(task);
+            cursor.moveToNext();
+        }
+        System.out.println(tasks);
+        // make sure to close the cursor
+        cursor.close();
+        return tasks;
+    }
+
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task();
         task.setId(cursor.getLong(0));
