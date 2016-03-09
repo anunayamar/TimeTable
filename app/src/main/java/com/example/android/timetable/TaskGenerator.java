@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,9 +25,12 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.w3c.dom.Text;
+
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TaskGenerator extends FragmentActivity {
@@ -45,7 +50,89 @@ public class TaskGenerator extends FragmentActivity {
 
         Intent intent=getIntent();
         setContentView(R.layout.task_generator);
-        dayName=intent.getCharSequenceExtra("DAY_NAME").toString();
+
+        CharSequence daySeq = intent.getCharSequenceExtra("DAY_NAME");
+
+        if(daySeq!=null){
+            dayName=daySeq.toString();
+        }
+
+        CharSequence taskSeq = intent.getCharSequenceExtra("TASK_TITLE");
+
+        if(taskSeq!=null){
+
+            displayTask(taskSeq.toString());
+        }
+
+    }
+
+    public void displayTask(String taskTitle){
+
+        EditText eTTaskTitle=(EditText)findViewById(R.id.taskTitle);
+        eTTaskTitle.setEnabled(false);
+
+        EditText eTTaskDescription=(EditText)findViewById(R.id.taskDescription);
+        eTTaskDescription.setEnabled(false);
+
+        ToggleButton tglSunday=(ToggleButton)findViewById(R.id.sundayToggle);
+        tglSunday.setEnabled(false);
+
+        ToggleButton tglMonday=(ToggleButton)findViewById(R.id.mondayToggle);
+        tglMonday.setEnabled(false);
+
+        ToggleButton tglTuesday=(ToggleButton)findViewById(R.id.tuesdayToggle);
+        tglTuesday.setEnabled(false);
+
+        ToggleButton tglWednesday=(ToggleButton)findViewById(R.id.wednesdayToggle);
+        tglWednesday.setEnabled(false);
+
+        ToggleButton tglThursday=(ToggleButton)findViewById(R.id.thursdayToggle);
+        tglThursday.setEnabled(false);
+
+        ToggleButton tglFriday=(ToggleButton)findViewById(R.id.fridayToggle);
+        tglFriday.setEnabled(false);
+
+        ToggleButton tglSaturday=(ToggleButton)findViewById(R.id.saturdayToggle);
+        tglSaturday.setEnabled(false);
+
+        ImageView imgClickImage=(ImageView)findViewById(R.id.clickImage);
+        imgClickImage.setEnabled(false);
+
+        ImageView imgTaskLocation=(ImageView)findViewById(R.id.taskLocation);
+        imgTaskLocation.setEnabled(false);
+
+        Button btnSave=(Button)findViewById(R.id.button);
+        btnSave.setVisibility(View.INVISIBLE);
+
+        Button btnCancel=(Button)findViewById(R.id.button2);
+        btnCancel.setVisibility(View.INVISIBLE);
+
+        dataSource = new TaskDataSource(this);
+        try{
+            dataSource.open();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        List<Task> values = dataSource.getTask(dayName, taskTitle);
+
+        for(Task task: values){
+            TextView timeLabel = (TextView) findViewById(R.id.timerlabel);
+            timeLabel.setText(task.getTaskTime());
+
+            EditText taskTitleEditText = (EditText) findViewById(R.id.taskTitle);
+            taskTitleEditText.setText(taskTitle);
+
+            EditText taskDescriptionEditText = (EditText) findViewById(R.id.taskDescription);
+            taskDescriptionEditText.setText(task.getTaskDescription());
+
+            TextView locLabel = (TextView) findViewById(R.id.locationLabel);
+            locLabel.setText(task.getLatitude()+ " \n" + task.getLongitude());
+
+        }
+
+
+        dataSource.close();
     }
 
     public static class TimePickerFragment extends DialogFragment
