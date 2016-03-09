@@ -81,7 +81,14 @@ public class TaskActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("adapter.getItem(position):" + adapter.getItem(position)+" position: "+position);
+                System.out.println("adapter.getItem(position):" + adapter.getItem(position) + " position: " + position);
+
+                Intent intent = new Intent(TaskActivity.this, TaskGenerator.class);
+
+                intent.putExtra("DAY_NAME", dayName);
+                intent.putExtra("TASK_TITLE", adapter.getItem(position));
+                startActivity(intent);
+                finish();
             }
         });
         registerForContextMenu(listView);
