@@ -10,7 +10,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".DaysList"
             android:label="@string/app_name"
@@ -31,8 +30,16 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCwk1tIaGeNiEtJkGdaEnHZDoCFZMOxLLw">
+            android:value="AIzaSyCwk1tIaGeNiEtJkGdaEnHZDoCFZMOxLLw" >
         </meta-data>
+
+        <activity android:name=".TaskMapActivity" >
+        </activity>
+
+        <service
+            android:name="com.example.android.service.FetchAddressIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
