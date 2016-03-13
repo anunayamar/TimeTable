@@ -18,9 +18,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TASK_TIME = "taskTime";
     public static final String COLUMN_LATITUDE = "latitude";
     public static final String COLUMN_LONGITUDE = "longitude";
+    public static final String COLUMN_TASK_ADDRESS = "taskAddress";
 
     private static final String DATABASE_NAME = "timetable.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
@@ -29,8 +30,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + " text not null," + COLUMN_TASK
             + " text not null," + COLUMN_TASK_DESCRIPTION
             + " text not null," + COLUMN_TASK_TIME
-            + " real not null," + COLUMN_LATITUDE
+            + " text not null," + COLUMN_LATITUDE
             + " real not null," + COLUMN_LONGITUDE
+            + " real not null," + COLUMN_TASK_ADDRESS
             + " text not null);";
 
     public MySQLiteHelper(Context context) {
