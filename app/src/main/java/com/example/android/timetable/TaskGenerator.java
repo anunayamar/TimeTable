@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
 import android.widget.ToggleButton;
 
 import com.example.android.com.example.android.constant.Constants;
@@ -66,6 +66,7 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
      */
     protected String mAddressOutput;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +84,11 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
         CharSequence taskSeq = intent.getCharSequenceExtra("TASK_TITLE");
 
-        buildGoogleApiClient();
-
         if(taskSeq!=null){
-
-            mResultReceiver = new AddressResultReceiver(new Handler());
             displayTask(taskSeq.toString());
-
+        }else{
+            buildGoogleApiClient();
+            mResultReceiver = new AddressResultReceiver(new Handler());
         }
 
     }
@@ -168,12 +167,10 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             EditText taskDescriptionEditText = (EditText) findViewById(R.id.taskDescription);
             taskDescriptionEditText.setText(task.getTaskDescription());
 
-            double lat=task.getLatitude();
-            double longit=task.getLongitude();
-            startIntentService(lat,longit);
+
 
             TextView locLabel = (TextView) findViewById(R.id.locationLabel);
-            locLabel.setText(lat+ " \n" + longit);
+            locLabel.setText(task.getTaskAddress());
 
             dayName=dayName.toLowerCase();
 
@@ -225,12 +222,10 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            System.out.println("Anunay1");
+
             TaskGenerator taskGenerator=(TaskGenerator)getActivity();
             taskGenerator.updateTimerLabel(hourOfDay, minute, view.is24HourView());
 
-            System.out.println("Anunay2");
-            //dismiss();
         }
     }
 
@@ -281,9 +276,9 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
             System.out.println(taskTitle.getText()+" "+taskDescription.getText()+" "+taskTimer.getText()+" "+dayToggle.isChecked()+" "+dayToggle.getTextOn());
 
-            if(dayToggle.isChecked()){
+            if(dayToggle.isChecked() && mAddressOutput!=null){
                 Task task = dataSource.createTask(dayMap.get(dayToggle.getTextOn().toString()), taskTitle.getText().toString(),
-                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude);
+                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude,mAddressOutput);
 
                 System.out.println(task);
             }
@@ -318,23 +313,24 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
 
-                String toastMsg = String.format("Place: %s", place.getName());
                 LatLng latLng=place.getLatLng();
 
-                Toast.makeText(this, latLng.toString(), Toast.LENGTH_LONG).show();
-                updateLocationLabel(latLng.latitude,latLng.longitude);
+                this.latitude=latLng.latitude;
+                this.longitude=latLng.longitude;
+
+
+                startIntentService(this.latitude, this.longitude);
+
             }
         }
     }
 
-    public void updateLocationLabel(double latitude, double longitude){
+    public void updateLocationLabel(){
 
         TextView textView=(TextView)findViewById(R.id.locationLabel);
 
-        textView.setTextSize(25);
-        textView.setText("LATITUDE: " + latitude + "\nLONGITUDE: " + longitude);
-        this.latitude=latitude;
-        this.longitude=longitude;
+        textView.setTextSize(18);
+        textView.setText(mAddressOutput);
     }
 
     @Override
@@ -402,6 +398,7 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
         mGoogleApiClient.connect();
     }
 
+
     /**
      * Receiver for data sent from FetchAddressIntentService.
      */
@@ -418,7 +415,9 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
             // Display the address string or an error message sent from the intent service.
             mAddressOutput = resultData.getString("RESULT_DATA_KEY");
+
             System.out.println("Address found:"+mAddressOutput);
+            updateLocationLabel();
 
             //Fetch pin, the address which is coming now and the getAdminArea
 
