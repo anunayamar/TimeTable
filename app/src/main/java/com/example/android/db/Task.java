@@ -11,6 +11,15 @@ public class Task {
     private String taskTime;
     private double latitude;
     private double longitude;
+    private String taskAddress;
+
+    public String getTaskAddress() {
+        return taskAddress;
+    }
+
+    public void setTaskAddress(String taskAddress) {
+        this.taskAddress = taskAddress;
+    }
 
     public String getTaskDescription() {
         return taskDescription;
