@@ -20,7 +20,7 @@ public class TaskDataSource {
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_DAY, MySQLiteHelper.COLUMN_TASK, MySQLiteHelper.COLUMN_TASK_DESCRIPTION, MySQLiteHelper.COLUMN_TASK_TIME,
-            MySQLiteHelper.COLUMN_LATITUDE, MySQLiteHelper.COLUMN_LONGITUDE };
+            MySQLiteHelper.COLUMN_LATITUDE, MySQLiteHelper.COLUMN_LONGITUDE, MySQLiteHelper.COLUMN_TASK_ADDRESS };
 
     public TaskDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -35,7 +35,7 @@ public class TaskDataSource {
         dbHelper.close();
     }
 
-    public Task createTask(String day, String task, String taskDescription, String taskTime, double latitude, double longitude) {
+    public Task createTask(String day, String task, String taskDescription, String taskTime, double latitude, double longitude, String taskAddress) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DAY, day);
         values.put(MySQLiteHelper.COLUMN_TASK, task);
@@ -43,6 +43,7 @@ public class TaskDataSource {
         values.put(MySQLiteHelper.COLUMN_TASK_TIME, taskTime);
         values.put(MySQLiteHelper.COLUMN_LATITUDE, latitude);
         values.put(MySQLiteHelper.COLUMN_LONGITUDE, longitude);
+        values.put(MySQLiteHelper.COLUMN_TASK_ADDRESS, taskAddress);
 
         System.out.println("Inserting task:" + task + " taskDescription:" + taskDescription + " taskTime:" + taskTime);
         long insertId = database.insert(MySQLiteHelper.TABLE_TASK, null,
@@ -109,6 +110,7 @@ public class TaskDataSource {
         task.setTaskTime(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TASK_TIME)));
         task.setLatitude(cursor.getDouble(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LATITUDE)));
         task.setLongitude(cursor.getDouble(cursor.getColumnIndex(MySQLiteHelper.COLUMN_LONGITUDE)));
+        task.setTaskAddress(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_TASK_ADDRESS)));
 
 
         return task;
