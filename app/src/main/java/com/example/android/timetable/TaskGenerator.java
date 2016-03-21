@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TaskGenerator extends FragmentActivity implements ConnectionCallbacks,OnConnectionFailedListener{
+public class TaskGenerator extends FragmentActivity implements ConnectionCallbacks, OnConnectionFailedListener {
 
 
     private TaskDataSource dataSource = null;
@@ -52,7 +52,7 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
     private double latitude;
     private double longitude;
 
-    private  int PLACE_PICKER_REQUEST = 1;
+    private int PLACE_PICKER_REQUEST = 1;
 
     protected GoogleApiClient mGoogleApiClient;
 
@@ -66,6 +66,8 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
      */
     protected String mAddressOutput;
 
+    private String deleteTaskTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,22 +75,21 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
         System.out.println("TaskGenerator: in onCreate");
 
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         setContentView(R.layout.task_generator);
 
         CharSequence daySeq = intent.getCharSequenceExtra("DAY_NAME");
 
-        if(daySeq!=null){
-            dayName=daySeq.toString();
+        if (daySeq != null) {
+            dayName = daySeq.toString();
         }
 
         CharSequence taskSeq = intent.getCharSequenceExtra("TASK_TITLE");
+        buildGoogleApiClient();
+        mResultReceiver = new AddressResultReceiver(new Handler());
 
-        if(taskSeq!=null){
+        if (taskSeq != null) {
             displayTask(taskSeq.toString());
-        }else{
-            buildGoogleApiClient();
-            mResultReceiver = new AddressResultReceiver(new Handler());
         }
 
     }
@@ -106,58 +107,110 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
     }
 
 
-    public void displayTask(String taskTitle){
+    public void editTask(View view) {
 
-        EditText eTTaskTitle=(EditText)findViewById(R.id.taskTitle);
+        Button edit = (Button) findViewById(R.id.button3);
+        edit.setVisibility(View.INVISIBLE);
+
+        EditText eTTaskTitle = (EditText) findViewById(R.id.taskTitle);
+        eTTaskTitle.setEnabled(true);
+
+        EditText eTTaskDescription = (EditText) findViewById(R.id.taskDescription);
+        eTTaskDescription.setEnabled(true);
+
+        ToggleButton tglSunday = (ToggleButton) findViewById(R.id.sundayToggle);
+        tglSunday.setEnabled(true);
+
+        ToggleButton tglMonday = (ToggleButton) findViewById(R.id.mondayToggle);
+        tglMonday.setEnabled(true);
+
+        ToggleButton tglTuesday = (ToggleButton) findViewById(R.id.tuesdayToggle);
+        tglTuesday.setEnabled(true);
+
+        ToggleButton tglWednesday = (ToggleButton) findViewById(R.id.wednesdayToggle);
+        tglWednesday.setEnabled(true);
+
+        ToggleButton tglThursday = (ToggleButton) findViewById(R.id.thursdayToggle);
+        tglThursday.setEnabled(true);
+
+        ToggleButton tglFriday = (ToggleButton) findViewById(R.id.fridayToggle);
+        tglFriday.setEnabled(true);
+
+        ToggleButton tglSaturday = (ToggleButton) findViewById(R.id.saturdayToggle);
+        tglSaturday.setEnabled(true);
+
+        ImageView imgClickImage = (ImageView) findViewById(R.id.clickImage);
+        imgClickImage.setEnabled(true);
+
+        ImageView imgTaskLocation = (ImageView) findViewById(R.id.taskLocation);
+        imgTaskLocation.setEnabled(true);
+
+        Button btnSave = (Button) findViewById(R.id.button);
+        btnSave.setVisibility(View.VISIBLE);
+
+        Button btnCancel = (Button) findViewById(R.id.button2);
+        btnCancel.setVisibility(View.VISIBLE);
+
+        deleteTaskTitle = eTTaskTitle.getText().toString();
+
+
+    }
+
+    public void displayTask(String taskTitle) {
+
+        EditText eTTaskTitle = (EditText) findViewById(R.id.taskTitle);
         eTTaskTitle.setEnabled(false);
 
-        EditText eTTaskDescription=(EditText)findViewById(R.id.taskDescription);
+        EditText eTTaskDescription = (EditText) findViewById(R.id.taskDescription);
         eTTaskDescription.setEnabled(false);
 
-        ToggleButton tglSunday=(ToggleButton)findViewById(R.id.sundayToggle);
+        ToggleButton tglSunday = (ToggleButton) findViewById(R.id.sundayToggle);
         tglSunday.setEnabled(false);
 
-        ToggleButton tglMonday=(ToggleButton)findViewById(R.id.mondayToggle);
+        ToggleButton tglMonday = (ToggleButton) findViewById(R.id.mondayToggle);
         tglMonday.setEnabled(false);
 
-        ToggleButton tglTuesday=(ToggleButton)findViewById(R.id.tuesdayToggle);
+        ToggleButton tglTuesday = (ToggleButton) findViewById(R.id.tuesdayToggle);
         tglTuesday.setEnabled(false);
 
-        ToggleButton tglWednesday=(ToggleButton)findViewById(R.id.wednesdayToggle);
+        ToggleButton tglWednesday = (ToggleButton) findViewById(R.id.wednesdayToggle);
         tglWednesday.setEnabled(false);
 
-        ToggleButton tglThursday=(ToggleButton)findViewById(R.id.thursdayToggle);
+        ToggleButton tglThursday = (ToggleButton) findViewById(R.id.thursdayToggle);
         tglThursday.setEnabled(false);
 
-        ToggleButton tglFriday=(ToggleButton)findViewById(R.id.fridayToggle);
+        ToggleButton tglFriday = (ToggleButton) findViewById(R.id.fridayToggle);
         tglFriday.setEnabled(false);
 
-        ToggleButton tglSaturday=(ToggleButton)findViewById(R.id.saturdayToggle);
+        ToggleButton tglSaturday = (ToggleButton) findViewById(R.id.saturdayToggle);
         tglSaturday.setEnabled(false);
 
-        ImageView imgClickImage=(ImageView)findViewById(R.id.clickImage);
+        ImageView imgClickImage = (ImageView) findViewById(R.id.clickImage);
         imgClickImage.setEnabled(false);
 
-        ImageView imgTaskLocation=(ImageView)findViewById(R.id.taskLocation);
+        ImageView imgTaskLocation = (ImageView) findViewById(R.id.taskLocation);
         imgTaskLocation.setEnabled(false);
 
-        Button btnSave=(Button)findViewById(R.id.button);
+        Button btnSave = (Button) findViewById(R.id.button);
         btnSave.setVisibility(View.INVISIBLE);
 
-        Button btnCancel=(Button)findViewById(R.id.button2);
+        Button edit = (Button) findViewById(R.id.button3);
+        edit.setVisibility(View.VISIBLE);
+
+        Button btnCancel = (Button) findViewById(R.id.button2);
         btnCancel.setVisibility(View.INVISIBLE);
 
         dataSource = new TaskDataSource(this);
-        try{
+        try {
             dataSource.open();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         List<Task> values = dataSource.getTask(dayName, taskTitle);
 
 
-        for(Task task: values){
+        for (Task task : values) {
             TextView timeLabel = (TextView) findViewById(R.id.timerlabel);
             timeLabel.setText(task.getTaskTime());
 
@@ -168,36 +221,38 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             taskDescriptionEditText.setText(task.getTaskDescription());
 
 
-
             TextView locLabel = (TextView) findViewById(R.id.locationLabel);
             locLabel.setText(task.getTaskAddress());
+            System.out.println("DayName fetched :" + dayName);
 
-            dayName=dayName.toLowerCase();
+            latitude = task.getLatitude();
 
-            switch (dayName){
-                case "monday":
+            longitude = task.getLongitude();
+
+
+            switch (dayName) {
+                case "Monday":
                     tglMonday.setChecked(true);
                     break;
-                case "tuesday":
+                case "Tuesday":
                     tglTuesday.setChecked(true);
                     break;
-                case "wednesday":
+                case "Wednesday":
                     tglWednesday.setChecked(true);
                     break;
-                case "thursday":
+                case "Thursday":
                     tglThursday.setChecked(true);
                     break;
-                case "friday":
+                case "Friday":
                     tglFriday.setChecked(true);
                     break;
-                case "saturday":
+                case "Saturday":
                     tglSaturday.setChecked(true);
                     break;
-                case "sunday":
+                case "Sunday":
                     tglSunday.setChecked(true);
                     break;
             }
-
 
 
         }
@@ -223,21 +278,31 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-            TaskGenerator taskGenerator=(TaskGenerator)getActivity();
+            TaskGenerator taskGenerator = (TaskGenerator) getActivity();
             taskGenerator.updateTimerLabel(hourOfDay, minute, view.is24HourView());
 
         }
     }
 
-    private void updateTimerLabel(int hourOfDay, int minute, boolean is24Hour){
+    private void updateTimerLabel(int hourOfDay, int minute, boolean is24Hour) {
 
-        TextView textView=(TextView)findViewById(R.id.timerlabel);
+        TextView textView = (TextView) findViewById(R.id.timerlabel);
 
         textView.setTextSize(45);
-        if(hourOfDay<=12) {
-            textView.setText(hourOfDay + ":" + minute+" AM");
-        }else{
-            textView.setText(hourOfDay + ":" + minute+" PM");
+        if (hourOfDay <= 12) {
+            if(minute < 10){
+                textView.setText(hourOfDay + ":0" + minute + " AM");
+            }else{
+                textView.setText(hourOfDay + ":" + minute + " AM");
+            }
+
+        } else {
+            if(minute < 10){
+                textView.setText(hourOfDay + ":0" + minute + " PM");
+            }else{
+                textView.setText(hourOfDay + ":" + minute + " PM");
+            }
+
         }
 
     }
@@ -248,52 +313,79 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
 
     }
 
-    public void saveTask(View view){
+    public void saveTask(View view) {
+
+        if (deleteTaskTitle != null) {
+
+            dataSource = new TaskDataSource(this);
+            try {
+                dataSource.open();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+            dataSource.deleteTask(deleteTaskTitle, dayName);
+            System.out.println("deleted for edition");
+
+            dataSource.close();
+        }
+
         EditText taskTitle = (EditText) findViewById(R.id.taskTitle);
         EditText taskDescription = (EditText) findViewById(R.id.taskDescription);
-        TextView taskTimer=(TextView) findViewById(R.id.timerlabel);
+        TextView taskTimer = (TextView) findViewById(R.id.timerlabel);
 
-        int []dayId= {R.id.sundayToggle, R.id.mondayToggle, R.id.tuesdayToggle, R.id.wednesdayToggle, R.id.thursdayToggle, R.id.fridayToggle, R.id.saturdayToggle};
+        int[] dayId = {R.id.sundayToggle, R.id.mondayToggle, R.id.tuesdayToggle, R.id.wednesdayToggle, R.id.thursdayToggle, R.id.fridayToggle, R.id.saturdayToggle};
 
         Map<String, String> dayMap = new HashMap<>();
-        dayMap.put("MON","Monday");
-        dayMap.put("TUE","Tuesday");
-        dayMap.put("WED","Wednesday");
-        dayMap.put("THURS","Thursday");
-        dayMap.put("FRI","Friday");
-        dayMap.put("SAT","Saturday");
-        dayMap.put("SUN","Sunday");
+        dayMap.put("MON", "Monday");
+        dayMap.put("TUE", "Tuesday");
+        dayMap.put("WED", "Wednesday");
+        dayMap.put("THURS", "Thursday");
+        dayMap.put("FRI", "Friday");
+        dayMap.put("SAT", "Saturday");
+        dayMap.put("SUN", "Sunday");
 
         dataSource = new TaskDataSource(this);
-        try{
+        try {
             dataSource.open();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        for(int i=0;i<7;i++){
-            ToggleButton dayToggle = (ToggleButton)findViewById(dayId[i]);
+        for (int i = 0; i < 7; i++) {
 
-            System.out.println(taskTitle.getText()+" "+taskDescription.getText()+" "+taskTimer.getText()+" "+dayToggle.isChecked()+" "+dayToggle.getTextOn());
+            System.out.println("Before save");
+            ToggleButton dayToggle = (ToggleButton) findViewById(dayId[i]);
 
-            if(dayToggle.isChecked() && mAddressOutput!=null){
+            System.out.println(taskTitle.getText() + " " + taskDescription.getText() + " " + taskTimer.getText() + " " + dayToggle.isChecked() + " " + dayToggle.getTextOn());
+
+            if (dayToggle.isChecked() && mAddressOutput != null) {
                 Task task = dataSource.createTask(dayMap.get(dayToggle.getTextOn().toString()), taskTitle.getText().toString(),
-                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude,mAddressOutput);
+                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude, mAddressOutput);
 
-                System.out.println(task);
+                System.out.println("Saving task:" + task);
+            } else if (dayToggle.isChecked()) {
+                TextView textView = (TextView) findViewById(R.id.locationLabel);
+
+
+                Task task = dataSource.createTask(dayMap.get(dayToggle.getTextOn().toString()), taskTitle.getText().toString(),
+                        taskDescription.getText().toString(), taskTimer.getText().toString(), latitude, longitude, textView.getText().toString());
+
+                System.out.println("Saving task:" + task);
             }
         }
         dataSource.close();
 
         Intent intent = new Intent(this, TaskActivity.class);
-        intent.putExtra("DAY_NAME",dayName);
+        intent.putExtra("DAY_NAME", dayName);
         startActivity(intent);
 
         finish();
 
     }
 
-    public void showMap(View view){
+    public void showMap(View view) {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
         try {
@@ -313,10 +405,10 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
 
-                LatLng latLng=place.getLatLng();
+                LatLng latLng = place.getLatLng();
 
-                this.latitude=latLng.latitude;
-                this.longitude=latLng.longitude;
+                this.latitude = latLng.latitude;
+                this.longitude = latLng.longitude;
 
 
                 startIntentService(this.latitude, this.longitude);
@@ -325,12 +417,13 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
         }
     }
 
-    public void updateLocationLabel(){
+    public void updateLocationLabel() {
 
-        TextView textView=(TextView)findViewById(R.id.locationLabel);
+        TextView textView = (TextView) findViewById(R.id.locationLabel);
 
         textView.setTextSize(18);
         textView.setText(mAddressOutput);
+
     }
 
     @Override
@@ -408,7 +501,7 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
         }
 
         /**
-         *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
+         * Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -416,7 +509,7 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             // Display the address string or an error message sent from the intent service.
             mAddressOutput = resultData.getString("RESULT_DATA_KEY");
 
-            System.out.println("Address found:"+mAddressOutput);
+            System.out.println("Address found:" + mAddressOutput);
             updateLocationLabel();
 
             //Fetch pin, the address which is coming now and the getAdminArea
@@ -427,5 +520,9 @@ public class TaskGenerator extends FragmentActivity implements ConnectionCallbac
             }
 
         }
+    }
+
+    public void cancelTask(View view) {
+        finish();
     }
 }
